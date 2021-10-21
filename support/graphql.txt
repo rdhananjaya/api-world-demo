@@ -1,0 +1,14 @@
+POST
+localhost:8080/weather
+
+
+{
+    weather(city: "NY") {
+        current {
+            temp_c
+        }
+        location {
+            localtime
+        }
+    }
+}

@@ -1,0 +1,12 @@
+Add
+
+cloud = "docker"
+
+to the Ballerina.toml file to force docker gen
+
+
+Docker
+======
+
+docker ps -a
+docker rm -f hash_of_image
