@@ -7,29 +7,34 @@ type Student record {
 
 service / on new http:Listener(9090) {
 
-    resource function post bindStudent(@http:Payload Student student)
+    // Json structure similar to { Name: val, Grade: 0 } will be mapped to `Student` type.
+    resource function post extractName(@http:Payload Student student)
             returns json {
         string name = student.Name;
         return {Name: name};
     }
 
-    resource function post bindXML(@http:Payload xml store) returns xml {
+    resource function post extractCity(@http:Payload xml store) returns xml {
+        // Extract a descendent element from a xml value.
         xml city = store/**/<city>;
         return city;
     }
 
-    resource function get qparam/[string p]/[string q]() returns json {
+    // p, q are values extracted from the path.
+    resource function get pathParam/[string p]/[string q]() returns json {
         return {
             p,
             q
         };
     }
 
+    // `val` extracted from http header.
     resource function get header(@http:Header string? val) returns json {
         return {value: val};
     }
 
-    resource function default . (http:Request req) returns xml|error {
+    // Request object is also available for advance use cases.
+    resource function get request_object(http:Request req) returns xml|error {
         string header = check req.getHeader("val");
         return xml `<header>${header}</header>`;
     }
