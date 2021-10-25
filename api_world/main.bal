@@ -38,4 +38,18 @@ service / on new http:Listener(9090) {
         string header = check req.getHeader("val");
         return xml `<header>${header}</header>`;
     }
+
+    // For any advance use case, we can use the http:Response object and manually 
+    // all the content as we wish.
+    // Let's generate html pages using ballerina xml type.
+    resource function get html() returns http:Response|error {
+        http:Response resp = new http:Response();
+        check resp.setContentType("text/html");
+
+        xml header = xml `<head><title>Hello from Ballerina</title></head>`;
+        xml body = xml `<body><p>In ballerina we use xml type to generate html</p></body>`;
+        xml html = xml `<html>${header}${body}</html>`;
+        resp.setPayload(html);
+        return resp;
+    }
 }
